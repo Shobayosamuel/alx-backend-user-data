@@ -18,7 +18,7 @@ class RedactingFormatter(logging.Formatter):
     def __init__(self, fields: List[str]):
         """Initialize the class"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
-
+        self.fields = fields
     def format(self, record: logging.LogRecord) -> str:
         """Implement formater to filter log records"""
         record.msg = filter_datum(self.fields, self.REDACTION,
