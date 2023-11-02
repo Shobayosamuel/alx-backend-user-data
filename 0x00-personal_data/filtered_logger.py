@@ -43,6 +43,7 @@ def get_logger() -> logging.Logger:
     """Return a logging.logger object of the logger"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
+    logger.propagate = False
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(RedactingFormatter(list(PIL_fields)))
     logger.addHandler(stream_handler)
