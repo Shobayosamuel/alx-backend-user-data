@@ -20,19 +20,24 @@ AUTH_TYPE = os.getenv("AUTH_TYPE")
 if AUTH_TYPE == auth:
     from api.v1.auth.auth import Auth
     auth = Auth()
-
+elif AUTH_TYPE == "basic_auth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 
 @app.before_request
 def before_request():
+    """
+        _sumary_: Basic Authentication
+    """
     path_list = ['/api/v1/status/', '/api/v1/unauthorized/',
                  '/api/v1/forbidden/']
     if auth is None:
         pass
     else:
         if auth.require_auth(request.path, path_list):
-            if auth.authorization_header(request) is None:
+            if auth.authorization_header(request):
                 abort(401, description="Unauthorized")
-            if auth.current_user(request) is None:
+            if auth.current_user(request):
                 abort(403, description='Forbidden')
 
 
@@ -41,6 +46,7 @@ def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
+
 
 
 @app.errorhandler(401)
