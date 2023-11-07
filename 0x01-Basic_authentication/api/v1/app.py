@@ -37,9 +37,11 @@ def before_request():
     else:
         if auth.require_auth(request.path, path_list):
             if auth.authorization_header(request):
-                abort(401, description="Unauthorized")
-            if auth.current_user(request):
-                abort(403, description='Forbidden')
+                #abort(401, description="Unauthorized")
+                return jsonify({"error": "Forbidden"}), 401
+            elif auth.current_user(request):
+                return jsonify({"error": "Unauthorized"}), 403
+                #abort(403, description='Forbidden')
 
 
 @app.errorhandler(404)
@@ -50,14 +52,14 @@ def not_found(error) -> str:
 
 
 @app.errorhandler(401)
-def not_found(error) -> str:
+def unauthorized(error) -> str:
     """ Unauthorized error
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
-def not_found(error) -> str:
+def forbidden(error) -> str:
     """ Forbidden error
     """
     return jsonify({"error": "Forbidden"}), 403

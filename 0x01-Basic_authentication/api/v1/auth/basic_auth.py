@@ -12,4 +12,14 @@ from models.user import User
 
 
 class BasicAuth(Auth):
-    pass
+    """Basic Authentication"""
+    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+        """Return the Base64 part  the authorization header"""
+        if authorization_header is None:
+            return None
+        elif type(authorization_header) != str:
+            return None
+        elif authorization_header[0:6] != "Basic ":
+            return None
+        else:
+            return authorization_header[6:]
