@@ -6,7 +6,7 @@ Module for authentication using Basic auth
 
 from typing import TypeVar
 from api.v1.auth.auth import Auth
-import base64, binascii
+import base64
 
 from models.user import User
 
