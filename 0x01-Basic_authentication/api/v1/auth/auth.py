@@ -10,7 +10,9 @@ class Auth:
         """Check if auth is required"""
         if path is None or excluded_paths is None or excluded_paths == []:
             return True
-        if path in excluded_paths or (path + '/') in excluded_paths:
+        elif path in excluded_paths or (path + '/') in excluded_paths:
+            return False
+        elif path in excluded_paths or (path + '*') in excluded_paths:
             return False
         return True
 
