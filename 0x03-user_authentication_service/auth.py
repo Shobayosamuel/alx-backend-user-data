@@ -64,6 +64,17 @@ class Auth:
             user.session_id = None
             return None
 
+    def get_reset_password_token(self, email: str) -> str:
+        """Return: generated reset token"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except Exception:
+            raise ValueError
+        else:
+            reset_token = _generate_uuid()
+            user.reset_token = reset_token
+            return reset_token
+
 
 def _hash_password(password: str) -> bytes:
     """Hash password using bcrypt
