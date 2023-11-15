@@ -32,7 +32,7 @@ class Auth:
         except Exception:
             return False
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
- 
+
     def create_session(self, email: str) -> str:
         """Create a user session id and return it"""
         try:
@@ -42,6 +42,14 @@ class Auth:
         else:
             user.session_id = _generate_uuid()
             return user.session_id
+
+    def get_user_from_session_id(session_id: str) -> User:
+        """find user by session ID"""
+        if session_id is None:
+            return None
+        if self._db.find_user_by(session_id=session_id):
+            return self._db.find_user_by(session_id=session_id)
+        return None
 
 
 def _hash_password(password: str) -> bytes:
