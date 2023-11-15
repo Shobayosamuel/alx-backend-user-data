@@ -47,9 +47,12 @@ class Auth:
         """find user by session ID"""
         if session_id is None:
             return None
-        if self._db.find_user_by(session_id=session_id):
-            return self._db.find_user_by(session_id=session_id)
-        return None
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except Exception:
+            return None
+        else:
+            return user
 
 
 def _hash_password(password: str) -> bytes:
