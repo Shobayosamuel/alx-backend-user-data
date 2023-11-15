@@ -33,13 +33,13 @@ class Auth:
             return False
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
 
-    def _generate_uuid(self) -> str:
-        """Return string representation of uuid"""
-        return str(uuid.uuid4())
-
 
 def _hash_password(password: str) -> bytes:
     """Hash password using bcrypt
         return: bytes
     """
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+def _generate_uuid(self) -> str:
+    """Return string representation of uuid"""
+    return str(uuid.uuid4())
