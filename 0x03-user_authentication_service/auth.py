@@ -4,6 +4,7 @@ import bcrypt
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
+import uuid
 
 
 class Auth:
@@ -23,6 +24,18 @@ class Auth:
 
         else:
             raise ValueError('User {} already exists'.format(email))
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Check if password is valid"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except Exception:
+            return False
+        return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
+
+    def _generate_uuid() -> str:
+        """Return string representation of uuid"""
+        return str(uuid.uuid4())
 
 
 def _hash_password(password: str) -> bytes:
