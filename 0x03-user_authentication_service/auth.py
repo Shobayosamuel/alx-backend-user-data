@@ -53,7 +53,7 @@ class Auth:
             return None
         else:
             return user
- 
+
     def destroy_session(self, user_id: int) -> None:
         """Destroy session"""
         try:
