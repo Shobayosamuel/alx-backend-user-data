@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Basic Flask app"""
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 
@@ -42,7 +42,6 @@ def login() -> str:
         response.set_cookie('session_id', session_id)
 
     return response
-
 
 
 if __name__ == "__main__":
